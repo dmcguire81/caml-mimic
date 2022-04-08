@@ -1,4 +1,5 @@
-torch==1.0.0
+ipykernel
+torch==1.0.0  # see https://pypi.org/project/torch/1.0.0/#files
 tqdm
 scikit-learn==0.19.1
 numpy==1.13.3
