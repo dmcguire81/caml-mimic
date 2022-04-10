@@ -1,4 +1,4 @@
-ipykernel
+ipykernel==6.12.1
 torch==1.0.0  # see https://pypi.org/project/torch/1.0.0/#files
 tqdm==4.63.0
 scikit-learn==1.0.2
