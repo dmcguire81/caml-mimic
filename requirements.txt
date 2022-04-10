@@ -1,10 +1,10 @@
 ipykernel
 torch==1.0.0  # see https://pypi.org/project/torch/1.0.0/#files
-tqdm
-scikit-learn==0.19.1
-numpy==1.13.3
-scipy==0.19.1
-pandas==0.20.3
-jupyter-client
-gensim==3.2.0
-nltk==3.2.4
+tqdm==4.63.0
+scikit-learn==1.0.2
+numpy==1.21.5
+scipy==1.4.1
+pandas==1.3.5
+jupyter-client==5.3.5
+gensim==3.6.0
+nltk==3.2.5
