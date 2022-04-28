@@ -12,7 +12,7 @@
 
 ## Data processing
 
-To get started, first edit `constants.py` to point to the directories holding your copies of the MIMIC-II and MIMIC-III datasets. Then, organize your data with the following structure:
+1. Your MIMIC III data must be organized with the following structure within this repository:
 ```
 mimicdata/
 |   D_ICD_DIAGNOSES.csv
@@ -24,8 +24,14 @@ mimicdata/
 |   |   PROCEDURES_ICD.csv
 |   |   *_hadm_ids.csv (already in repo)
 ```
+2. From the mimicdata directory you can run the bash script `link-to-mimic3-files.sh mimic3_sourcedir`, where mimic3_sourcedir is the directory containing the above required MIMIC 3 csv data files.
 
-Now, make sure your python path includes the base directory of this repository. Then, in Jupyter Notebook, run all cells (in the menu, click Cell -> Run All) in `notebooks/dataproc_mimic_III.ipynb`. These will take some time, so go for a walk or bake some cookies while you wait. You can speed it up by skipping the "Pre-train word embeddings" sections. 
+3. Ensure your python path includes the base directory of this repository.  From the caml-mimic directory you can run:
+    ```
+    export PYTHONPATH=$(pwd):$PYTHONPATH
+    ```
+
+4. Open Jupyter Notebook `notebooks/dataproc_mimic_III.ipynb`, run all cells (in the menu, click Cell -> Run All). This will take some time, so go for a walk or bake some cookies while you wait. You can speed it up by skipping the "Pre-train word embeddings" sections. 
 
 ## Saved models
 

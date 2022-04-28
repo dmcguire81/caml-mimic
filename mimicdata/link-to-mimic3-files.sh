@@ -10,5 +10,5 @@ ln -s $1/D_ICD_DIAGNOSES.csv D_ICD_DIAGNOSES.csv
 ln -s $1/D_ICD_PROCEDURES.csv D_ICD_PROCEDURES.csv
 ln -s $1/NOTEEVENTS.csv mimic3/NOTEEVENTS.csv
 ln -s $1/DIAGNOSES_ICD.csv mimic3/DIAGNOSES_ICD.csv
-ln -s $1/D_ICD_PROCEDURES.csv mimic3/D_ICD_PROCEDURES.csv
+ln -s $1/PROCEDURES_ICD.csv mimic3/PROCEDURES_ICD.csv
 echo "...success"
