@@ -7,4 +7,4 @@ MODEL_DIR = '../saved_models/'
 
 DATA_DIR = '../mimicdata'
 MIMIC_3_DIR = '../mimicdata/mimic3'
-MIMIC_2_DIR = '../mimic2'
+#MIMIC_2_DIR = '../mimic2'
