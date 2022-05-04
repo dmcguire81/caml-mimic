@@ -23,6 +23,7 @@ mimicdata/
 |   |   DIAGNOSES_ICD.csv
 |   |   PROCEDURES_ICD.csv
 |   |   *_hadm_ids.csv (already in repo)
+└───saved_models/
 ```
 2. To get started, first edit `constants.py` to point to the `mimicdata` and `mimicdata/mimic3` directories above.
 

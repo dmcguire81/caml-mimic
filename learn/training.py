@@ -39,6 +39,8 @@ def init(args):
     csv.field_size_limit(sys.maxsize)
 
     #load vocab and other lookups
+    print("ARGS:", args)
+    
     desc_embed = args.lmbda > 0
     print("loading lookups...")
     dicts = datasets.load_lookups(args, desc_embed=desc_embed)
@@ -55,6 +57,7 @@ def init(args):
     
     return args, model, optimizer, params, dicts
 
+
 def train_epochs(args, model, optimizer, params, dicts):
     """
         Main loop. does train and test
@@ -69,7 +72,7 @@ def train_epochs(args, model, optimizer, params, dicts):
     for epoch in range(args.n_epochs):
         #only test on train/test set on very last epoch
         if epoch == 0 and not args.test_model:
-            model_dir = os.path.join(MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M:%S', time.localtime())]))
+            model_dir = os.path.join(MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H%M%S', time.localtime())]))
             os.mkdir(model_dir)
         elif args.test_model:
             model_dir = os.path.dirname(os.path.abspath(args.test_model))
@@ -197,7 +200,8 @@ def train(model, optimizer, Y, epoch, batch_size, data_path, gpu, version, dicts
         loss.backward()
         optimizer.step()
 
-        losses.append(loss.data[0])
+        # losses.append(loss.data[0])
+        losses.append(loss.data.item())
 
         if not quiet and batch_idx % print_every == 0:
             #print the average loss of the last 10 batches
@@ -243,7 +247,8 @@ def test(model, Y, epoch, data_path, fold, gpu, version, code_inds, dicts, sampl
     gen = datasets.data_generator(filename, dicts, 1, num_labels, version=version, desc_embed=desc_embed)
     for batch_idx, tup in tqdm(enumerate(gen)):
         data, target, hadm_ids, _, descs = tup
-        data, target = Variable(torch.LongTensor(data), volatile=True), Variable(torch.FloatTensor(target))
+        # data, target = Variable(torch.LongTensor(data), volatile=True), Variable(torch.FloatTensor(target))
+        data, target = torch.LongTensor(data), torch.FloatTensor(target) #TODO: do we need to use torch.no_grad()??
         if gpu:
             data = data.cuda()
             target = target.cuda()
@@ -258,9 +263,11 @@ def test(model, Y, epoch, data_path, fold, gpu, version, code_inds, dicts, sampl
         get_attn = samples and (np.random.rand() < 0.02 or (fold == 'test' and testing))
         output, loss, alpha = model(data, target, desc_data=desc_data, get_attention=get_attn)
 
-        output = F.sigmoid(output)
+        # output = F.sigmoid(output)
+        output = torch.sigmoid(output)
         output = output.data.cpu().numpy()
-        losses.append(loss.data[0])
+        # losses.append(loss.data[0])
+        losses.append(loss.data.item())
         target_data = target.data.cpu().numpy()
         if get_attn and samples:
             interpret.save_samples(data, output, target_data, alpha, window_size, epoch, tp_file, fp_file, dicts=dicts)
@@ -311,7 +318,7 @@ if __name__ == "__main__":
     parser.add_argument("--embed-size", type=int, required=False, dest="embed_size", default=100,
                         help="size of embedding dimension. (default: 100)")
     parser.add_argument("--filter-size", type=str, required=False, dest="filter_size", default=4,
-                        help="size of convolution filter to use. (default: 3) For multi_conv_attn, give comma separated integers, e.g. 3,4,5")
+                        help="size of convolution filter to use. (default: 4) For multi_conv_attn, give comma separated integers, e.g. 3,4,5")
     parser.add_argument("--num-filter-maps", type=int, required=False, dest="num_filter_maps", default=50,
                         help="size of conv output (default: 50)")
     parser.add_argument("--pool", choices=['max', 'avg'], required=False, dest="pool", help="which type of pooling to do (logreg model only)")
@@ -332,7 +339,7 @@ if __name__ == "__main__":
     parser.add_argument("--test-model", type=str, dest="test_model", required=False, help="path to a saved model to load and evaluate")
     parser.add_argument("--criterion", type=str, default='f1_micro', required=False, dest="criterion",
                         help="which metric to use for early stopping (default: f1_micro)")
-    parser.add_argument("--patience", type=int, default=3, required=False,
+    parser.add_argument("--patience", type=int, default=3, required=False, #dest="patience",
                         help="how many epochs to wait for improved criterion metric before early stopping (default: 3)")
     parser.add_argument("--gpu", dest="gpu", action="store_const", required=False, const=True,
                         help="optional flag to use GPU if available")
