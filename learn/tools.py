@@ -22,6 +22,8 @@ def pick_model(args, dicts):
     """
     Y = len(dicts['ind2c'])
     if args.model == "rnn":
+        print("==========settings=============")
+        print(type(Y), type(args.embed_file), type(dicts), type(args.rnn_dim), type(args.cell_type), type(args.rnn_layers), type(args.gpu), type(args.embed_size), type(args.bidirectional))
         model = models.VanillaRNN(Y, args.embed_file, dicts, args.rnn_dim, args.cell_type, args.rnn_layers, args.gpu, args.embed_size,
                                   args.bidirectional)
     elif args.model == "cnn_vanilla":
