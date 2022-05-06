@@ -339,7 +339,7 @@ if __name__ == "__main__":
     parser.add_argument("--test-model", type=str, dest="test_model", required=False, help="path to a saved model to load and evaluate")
     parser.add_argument("--criterion", type=str, default='f1_micro', required=False, dest="criterion",
                         help="which metric to use for early stopping (default: f1_micro)")
-    parser.add_argument("--patience", type=int, default=3, required=False, #dest="patience",
+    parser.add_argument("--patience", type=int, default=3, required=False, dest="patience",
                         help="how many epochs to wait for improved criterion metric before early stopping (default: 3)")
     parser.add_argument("--gpu", dest="gpu", action="store_const", required=False, const=True,
                         help="optional flag to use GPU if available")
